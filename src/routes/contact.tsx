@@ -28,7 +28,7 @@ function ContactPage() {
               
               <Reveal delay={0.1}>
                 <div className="glass p-8 sm:p-10 rounded-[2.5rem] border-border/50">
-                  <ContactSection inline />
+                  <ContactSection isInline={true} />
                 </div>
               </Reveal>
             </div>

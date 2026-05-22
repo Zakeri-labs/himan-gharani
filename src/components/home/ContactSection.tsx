@@ -12,7 +12,11 @@ const schema = z.object({
   message: z.string().trim().max(1000).optional(),
 });
 
-export function ContactSection({ inline = false }: { inline?: boolean }) {
+export interface ContactSectionProps {
+  isInline?: boolean;
+}
+
+export function ContactSection({ isInline = false }: ContactSectionProps) {
   const { t } = useI18n();
   const [error, setError] = useState<string | null>(null);
 
@@ -37,17 +41,17 @@ export function ContactSection({ inline = false }: { inline?: boolean }) {
   const formContent = (
     <form onSubmit={onSubmit} className={cn(
       "relative rounded-[2.5rem] space-y-10",
-      inline ? "" : "glass-dark p-8 sm:p-12 lg:p-16 border border-white/10 shadow-2xl"
+      isInline ? "" : "glass-dark p-8 sm:p-12 lg:p-16 border border-white/10 shadow-2xl"
     )}>
       <div className="grid sm:grid-cols-2 gap-10">
-        <Field name="name" label={t("form.name")} required dark={!inline} />
-        <Field name="phone" label={t("form.phone")} type="tel" required dark={!inline} />
+        <Field name="name" label={t("form.name")} required dark={!isInline} />
+        <Field name="phone" label={t("form.phone")} type="tel" required dark={!isInline} />
       </div>
       
       <div className="space-y-4">
         <label className={cn(
           "block text-xs uppercase tracking-[0.3em] font-medium",
-          inline ? "text-muted-foreground" : "text-background/40"
+          isInline ? "text-muted-foreground" : "text-background/40"
         )}>
           {t("form.message")}
         </label>
@@ -58,7 +62,7 @@ export function ContactSection({ inline = false }: { inline?: boolean }) {
           placeholder="How can I help you?"
           className={cn(
             "w-full bg-transparent border-b py-4 text-lg outline-none focus:border-gold transition-colors resize-none",
-            inline 
+            isInline 
               ? "border-border text-foreground placeholder:text-muted-foreground/30" 
               : "border-white/10 text-background placeholder:text-white/10"
           )} 
@@ -86,7 +90,7 @@ export function ContactSection({ inline = false }: { inline?: boolean }) {
     </form>
   );
 
-  if (inline) return formContent;
+  if (isInline) return formContent;
 
   return (
     <section id="contact" className="relative py-24 sm:py-32 bg-foreground text-background overflow-hidden">
