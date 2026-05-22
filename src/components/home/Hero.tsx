@@ -30,13 +30,13 @@ export function Hero() {
         />
       </motion.div>
 
-      <motion.div style={{ opacity }} className="relative z-10 mx-auto max-w-7xl px-6 min-h-screen flex flex-col justify-start pt-32 sm:pt-0 sm:justify-end pb-12 sm:pb-28">
+      <motion.div style={{ opacity }} className="relative z-10 mx-auto max-w-7xl px-6 min-h-screen flex flex-col justify-start pt-32 sm:pt-0 sm:justify-end pb-12 sm:pb-20 lg:pb-14">
         <div className="grid lg:grid-cols-2 gap-12 items-end w-full">
           <motion.div 
             initial={{ opacity: 0, y: 40 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 1, delay: 0.3 }}
-            className="max-w-4xl sm:glass-dark p-0 sm:p-12 sm:rounded-[2rem] sm:border-white/10"
+            className="max-w-4xl p-0 lg:glass-dark lg:p-12 lg:rounded-[2rem] lg:border-white/10"
           >
             <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.5 }} className="text-xs uppercase tracking-[0.4em] text-white/70 mb-6">
               {t("hero.eyebrow")}
