@@ -83,6 +83,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Yekan Bakh Bold Only";
+  src: url("/fonts/YekanBakhFaNum-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --radius: 0.25rem;
   --background: oklch(0.985 0.008 80);
@@ -170,31 +178,85 @@
     font-feature-settings: "ss01", "cv11";
     -webkit-font-smoothing: antialiased;
   }
-  h1, h2, h3, h4, .font-display {
+  h1, h2, h3, h4, .font-display, .hero-title {
     font-family: var(--font-display);
     letter-spacing: -0.02em;
   }
   [dir="rtl"] body { font-family: "Yekan Bakh", var(--font-sans); }
-  [lang="fa"] h1, [lang="fa"] h2, [lang="fa"] h3, [lang="fa"] h4, [lang="fa"] .font-display {
-    font-family: "Yekan Bakh", var(--font-display);
+  [lang="fa"] h1, [lang="fa"] h2, [lang="fa"] h3, [lang="fa"] h4, [lang="fa"] .font-display, [lang="fa"] .hero-title,
+  [lang="ku"] h1, [lang="ku"] h2, [lang="ku"] h3, [lang="ku"] h4, [lang="ku"] .font-display, [lang="ku"] .hero-title {
+    font-family: "Yekan Bakh", var(--font-display), serif;
+    font-weight: 700;
+  }
+  /* Force Yekan Bakh Bold for specific section titles in RTL languages */
+  [lang="ku"] body {
+    font-family: "Yekan Bakh", var(--font-sans);
   }
 }
 
 @utility glass {
-  /* یه رنگ rgba ساده و مطمئن */
-  background: rgba(255, 255, 255, 0.15);
-  -webkit-backdrop-filter: blur(20px) saturate(140%);
-  backdrop-filter: blur(20px) saturate(140%);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 16px 40px -24px rgb(15 23 42 / 0.28);
+  background: rgba(255, 255, 255, 0.12);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 
+    0 16px 40px -24px rgb(15 23 42 / 0.28),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+@utility section-main-title {
+  /* This utility is used to force the premium bold font on specific section titles */
+  &:is([lang="fa"] *), &:is([lang="ku"] *) {
+    font-family: "Yekan Bakh Bold Only", "Yekan Bakh", serif !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.04em !important;
+    line-height: 1.15 !important;
+  }
+}
+
+@utility hero-title-rtl {
+  &:is([lang="fa"] *), &:is([lang="ku"] *) {
+    font-family: "Yekan Bakh Bold Only", "Yekan Bakh", serif !important;
+    font-weight: 700 !important;
+  }
+}
+
+@utility article-card-title {
+  &:is([lang="fa"] *), &:is([lang="ku"] *) {
+    font-family: "Yekan Bakh Bold Only", "Yekan Bakh", serif !important;
+    font-weight: 700 !important;
+  }
+}
+
+@utility featured-project-card-title {
+  &:is([lang="fa"] *), &:is([lang="ku"] *) {
+    font-family: "Yekan Bakh", var(--font-sans), sans-serif !important;
+    font-weight: 300 !important;
+  }
+}
+
+@utility project-detail-title-light {
+  &:is([lang="fa"] *), &:is([lang="ku"] *) {
+    font-family: "Yekan Bakh", var(--font-sans), sans-serif !important;
+    font-weight: 300 !important;
+  }
+}
+
+@utility page-title-light-rtl {
+  &:is([lang="fa"] *), &:is([lang="ku"] *) {
+    font-family: "Yekan Bakh", var(--font-sans), sans-serif !important;
+    font-weight: 300 !important;
+  }
 }
 
 @utility glass-dark {
-  background: rgba(15, 15, 15, 0.38);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow: 0 24px 48px -28px rgb(0 0 0 / 0.55);
+  background: rgba(15, 15, 15, 0.35);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 
+    0 24px 48px -28px rgb(0 0 0 / 0.55),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 @utility grain {

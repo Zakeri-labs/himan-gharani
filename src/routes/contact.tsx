@@ -12,7 +12,7 @@ export const Route = createFileRoute("/contact")({
 });
 
 function ContactPage() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   return (
     <AppShell>
       <section className="pt-32 pb-24 bg-background overflow-hidden">
@@ -22,7 +22,7 @@ function ContactPage() {
             <div className="space-y-12">
               <Reveal className="space-y-6">
                 <SectionLabel>{t("contact.eyebrow")}</SectionLabel>
-                <h1 className="font-display text-5xl sm:text-7xl font-light leading-[1.02]">{t("contact.page.title")}</h1>
+                <h1 className={`page-title-light-rtl font-display text-5xl sm:text-7xl leading-[1.02] ${locale === "en" ? "font-light" : ""}`}>{t("contact.page.title")}</h1>
                 <p className="text-lg text-muted-foreground max-w-xl">{t("contact.page.desc")}</p>
               </Reveal>
               
@@ -49,7 +49,7 @@ function ContactPage() {
                       <div className="pt-4 border-t border-white/10 space-y-3 text-sm text-white/80">
                         <a href={whatsappLink()} target="_blank" rel="noreferrer" className="flex items-center gap-3 hover:text-gold transition-colors">
                           <MessageCircle className="size-4 text-gold" /> 
-                          +971 56 243 0180
+                          +971562430180
                         </a>
                         <a href="mailto:himan@gharani.ae" className="flex items-center gap-3 hover:text-gold transition-colors">
                           <Mail className="size-4 text-gold" /> 

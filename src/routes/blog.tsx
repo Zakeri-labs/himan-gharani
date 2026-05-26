@@ -11,7 +11,7 @@ export const Route = createFileRoute("/blog")({
 });
 
 function BlogPage() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
 
   const location = useLocation();
 
@@ -23,29 +23,32 @@ function BlogPage() {
         <div className="mx-auto max-w-7xl px-6">
           <Reveal className="space-y-6 max-w-3xl">
             <SectionLabel>{t("blog.eyebrow")}</SectionLabel>
-            <h1 className="font-display text-5xl sm:text-7xl font-light leading-[1.02]">{t("blog.title")}</h1>
+            <h1 className={`page-title-light-rtl font-display text-5xl sm:text-7xl leading-[1.02] ${locale === "en" ? "font-light" : ""}`}>{t("blog.title")}</h1>
           </Reveal>
         </div>
       </section>
       <section className="pb-32">
         <div className="mx-auto max-w-7xl px-6 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {articles.map((a, i) => (
+          {articles.map((a, i) => {
+            const localized = a[locale];
+            return (
             <Reveal key={a.slug} delay={i * 0.08}>
               <Link to="/blog/$slug" params={{ slug: a.slug }} className="block group">
                 <div className="aspect-[5/4] overflow-hidden rounded-2xl bg-muted mb-6">
-                  <img src={a.image} alt={a.title} loading="lazy" className="size-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                  <img src={a.image} alt={localized.title} loading="lazy" className="size-full object-cover transition-transform duration-1000 group-hover:scale-105" />
                 </div>
                 <div className="flex items-center gap-3 text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">
-                  <span className="text-gold">{a.category}</span><span>·</span><span>{a.date}</span>
+                  <span className="text-gold">{localized.category}</span><span>·</span><span>{a.date}</span>
                 </div>
-                <h3 className="font-display text-2xl leading-snug font-light group-hover:text-gold transition-colors">{a.title}</h3>
-                <p className="mt-3 text-sm text-muted-foreground">{a.excerpt}</p>
+                <h3 className={`featured-project-card-title font-display text-2xl leading-snug group-hover:text-gold transition-colors ${locale === "en" ? "font-light" : ""}`}>{localized.title}</h3>
+                <p className="mt-3 text-sm text-muted-foreground">{localized.excerpt}</p>
                 <span className="inline-flex items-center gap-1.5 mt-4 text-xs uppercase tracking-[0.2em]">
                   {t("cta.readMore")} <ArrowUpRight className="size-3.5" />
                 </span>
               </Link>
             </Reveal>
-          ))}
+          );
+          })}
         </div>
       </section>
     </AppShell>

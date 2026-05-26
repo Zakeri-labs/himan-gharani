@@ -49,7 +49,8 @@ function ArticleError({ error, reset }: { error: Error; reset: () => void }) {
 
 function ArticlePage() {
   const a = Route.useLoaderData() as Article;
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
+  const localized = a[locale];
   const related = articles.filter((x) => x.slug !== a.slug).slice(0, 2);
   return (
     <AppShell>
@@ -60,22 +61,22 @@ function ArticlePage() {
               <ArrowLeft className="size-3.5" /> {t("article.back")}
             </Link>
             <div className="flex items-center gap-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              <span className="text-gold">{a.category}</span><span>·</span><span>{a.date}</span>
+              <span className="text-gold">{localized.category}</span><span>·</span><span>{a.date}</span>
             </div>
-            <h1 className="font-display text-4xl sm:text-6xl font-light leading-[1.05]">{a.title}</h1>
-            <p className="text-lg text-muted-foreground">{a.excerpt}</p>
+            <h1 className={`page-title-light-rtl font-display text-4xl sm:text-6xl leading-[1.05] ${locale === "en" ? "font-light" : ""}`}>{localized.title}</h1>
+            <p className="text-lg text-muted-foreground">{localized.excerpt}</p>
           </Reveal>
         </div>
         <Reveal delay={0.1} className="mt-16">
           <div className="mx-auto max-w-5xl px-6">
             <div className="aspect-[16/9] rounded-3xl overflow-hidden">
-              <img src={a.image} alt={a.title} className="size-full object-cover" />
+              <img src={a.image} alt={localized.title} className="size-full object-cover" />
             </div>
           </div>
         </Reveal>
         <div className="mx-auto max-w-3xl px-6 mt-16">
           <Reveal>
-            <p className="font-display text-xl sm:text-2xl leading-relaxed font-light text-foreground/85">{a.content}</p>
+            <p className={`page-title-light-rtl font-display text-xl sm:text-2xl leading-relaxed text-foreground/85 ${locale === "en" ? "font-light" : ""}`}>{localized.content}</p>
           </Reveal>
         </div>
       </article>
@@ -86,9 +87,9 @@ function ArticlePage() {
             {related.map((r) => (
               <Link key={r.slug} to="/blog/$slug" params={{ slug: r.slug }} className="group block">
                 <div className="aspect-[16/9] rounded-2xl overflow-hidden mb-4">
-                  <img src={r.image} alt={r.title} className="size-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                  <img src={r.image} alt={r[locale].title} className="size-full object-cover transition-transform duration-1000 group-hover:scale-105" />
                 </div>
-                <h3 className="font-display text-2xl font-light group-hover:text-gold transition-colors">{r.title}</h3>
+                <h3 className={`featured-project-card-title font-display text-2xl group-hover:text-gold transition-colors ${locale === "en" ? "font-light" : ""}`}>{r[locale].title}</h3>
               </Link>
             ))}
           </div>

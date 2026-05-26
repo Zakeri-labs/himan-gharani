@@ -51,8 +51,10 @@ function DetailError({ error, reset }: { error: Error; reset: () => void }) {
 
 function ProjectDetail() {
   const p = Route.useLoaderData() as Project;
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+  const localized = p[locale];
 
   const nextImage = (e?: React.MouseEvent) => {
     e?.stopPropagation();
@@ -69,18 +71,18 @@ function ProjectDetail() {
   return (
     <AppShell>
       <section className="relative h-[80vh] min-h-[600px] w-full overflow-hidden">
-        <img src={p.image} alt={p.name} className="size-full object-cover" width={1280} height={960} />
+        <img src={p.image} alt={localized.name} className="size-full object-cover" width={1280} height={960} />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
         <div className="absolute inset-x-0 bottom-0 p-6 sm:p-12">
           <div className="mx-auto max-w-7xl text-white">
             <Link to="/projects" className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-white/70 hover:text-white mb-6">
               <ArrowLeft className="size-3.5" /> Projects
             </Link>
-            <p className="text-xs uppercase tracking-[0.3em] text-white/70 mb-3">{p.category} · {p.developer}</p>
-            <h1 className="font-display text-5xl sm:text-7xl lg:text-8xl font-light leading-[0.95]">{p.name}</h1>
+            <p className="text-xs uppercase tracking-[0.3em] text-white/70 mb-3">{localized.category} · {localized.developer}</p>
+            <h1 className={`project-detail-title-light font-display text-5xl sm:text-7xl lg:text-8xl leading-[0.95] ${locale === "en" ? "font-light" : ""}`}>{localized.name}</h1>
             <div className="mt-6 flex flex-wrap gap-6 items-center text-sm">
-              <span className="flex items-center gap-2"><MapPin className="size-4" />{p.location}</span>
-              <span className="text-white/70">{t("projects.from")} <span className="text-white font-medium">{p.price}</span></span>
+              <span className="flex items-center gap-2"><MapPin className="size-4" />{localized.location}</span>
+              <span className="text-white/70">{t("projects.from")} <span className="text-white font-medium">{localized.price}</span></span>
             </div>
           </div>
         </div>
@@ -102,7 +104,7 @@ function ProjectDetail() {
                     >
                       <img
                         src={img}
-                        alt={`${p.name} - Gallery ${i + 1}`}
+                        alt={`${localized.name} - Gallery ${i + 1}`}
                         className="size-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                     </div>
@@ -115,7 +117,7 @@ function ProjectDetail() {
           <Dialog open={selectedIndex !== null} onOpenChange={(open) => !open && setSelectedIndex(null)}>
             <DialogContent className="max-w-none w-screen h-screen p-0 border-none bg-black/95 shadow-none flex items-center justify-center z-[100] outline-none">
               <VisuallyHidden>
-                <DialogTitle>{p.name} - Gallery</DialogTitle>
+                <DialogTitle>{localized.name} - Gallery</DialogTitle>
               </VisuallyHidden>
               
               <button 
@@ -138,7 +140,7 @@ function ProjectDetail() {
                     >
                       <img 
                         src={p.gallery[selectedIndex]} 
-                        alt={`${p.name} - Gallery ${selectedIndex + 1}`} 
+                        alt={`${localized.name} - Gallery ${selectedIndex + 1}`} 
                         className="max-h-full max-w-full object-contain shadow-2xl select-none" 
                       />
                     </motion.div>
@@ -175,21 +177,21 @@ function ProjectDetail() {
         <div className="mx-auto max-w-7xl px-6 grid lg:grid-cols-12 gap-12">
           <Reveal className="lg:col-span-7 space-y-6">
             <SectionLabel>{t("project.overview")}</SectionLabel>
-            <p className="font-display text-3xl sm:text-4xl font-light leading-snug">{p.tagline}</p>
-            <p className="text-muted-foreground leading-relaxed text-lg">{p.overview}</p>
+            <p className={`project-detail-title-light font-display text-3xl sm:text-4xl leading-snug ${locale === "en" ? "font-light" : ""}`}>{localized.tagline}</p>
+            <p className="text-muted-foreground leading-relaxed text-lg">{localized.overview}</p>
           </Reveal>
           <Reveal delay={0.1} className="lg:col-span-4 lg:col-start-9">
             <div className="glass rounded-3xl p-8 sticky top-28">
               <h3 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-6">{t("project.payment")}</h3>
               <div className="space-y-4">
-                {p.payment.map((s) => (
+                {localized.payment.map((s) => (
                   <div key={s.stage} className="flex justify-between items-baseline border-b border-border/50 pb-3">
                     <span className="text-sm">{s.stage}</span>
                     <span className="font-display text-2xl text-gold">{s.percent}</span>
                   </div>
                 ))}
               </div>
-              <a href={whatsappLink(`Hello Himan, I'm interested in ${p.name}.`)} target="_blank" rel="noreferrer" className="mt-8 w-full inline-flex items-center justify-center gap-2 bg-foreground text-background px-6 py-3.5 rounded-full text-sm font-medium hover:scale-[1.02] transition-transform">
+              <a href={whatsappLink(`Hello Himan, I'm interested in ${localized.name}.`)} target="_blank" rel="noreferrer" className="mt-8 w-full inline-flex items-center justify-center gap-2 bg-foreground text-background px-6 py-3.5 rounded-full text-sm font-medium hover:scale-[1.02] transition-transform">
                 <MessageCircle className="size-4" /> {t("project.enquire")}
               </a>
             </div>
@@ -203,7 +205,7 @@ function ProjectDetail() {
             <SectionLabel>{t("project.amenities")}</SectionLabel>
           </Reveal>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {p.amenities.map((a, i) => (
+            {localized.amenities.map((a, i) => (
               <Reveal key={a} delay={i * 0.05}>
                 <div className="flex items-center gap-4 bg-card border border-border rounded-2xl p-5">
                   <Check className="size-4 text-gold" />
@@ -219,11 +221,11 @@ function ProjectDetail() {
         <div className="mx-auto max-w-7xl px-6">
           <Reveal className="mb-12 space-y-6">
             <SectionLabel>{t("project.location")}</SectionLabel>
-            <h2 className="font-display text-4xl sm:text-5xl font-light">{p.location}</h2>
+            <h2 className={`project-detail-title-light font-display text-4xl sm:text-5xl ${locale === "en" ? "font-light" : ""}`}>{localized.location}</h2>
           </Reveal>
           <Reveal delay={0.1}>
             <div className="aspect-[21/9] rounded-3xl overflow-hidden border border-border">
-              <iframe title="map" src={`https://www.google.com/maps?q=${encodeURIComponent(p.location + ", Dubai")}&output=embed`} className="size-full" loading="lazy" />
+              <iframe title="map" src={`https://www.google.com/maps?q=${encodeURIComponent(localized.location + ", Dubai")}&output=embed`} className="size-full" loading="lazy" />
             </div>
           </Reveal>
         </div>

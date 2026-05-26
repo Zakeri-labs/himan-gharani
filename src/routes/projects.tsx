@@ -13,21 +13,21 @@ export const Route = createFileRoute("/projects")({
 });
 
 function ProjectsPage() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const location = useLocation();
-  const categories = ["All", ...Array.from(new Set(projects.map((p) => p.category)))];
+  const categories = ["All", ...Array.from(new Set(projects.map((p) => p[locale].category)))];
   const [cat, setCat] = useState("All");
 
   if (location.pathname !== "/projects") return <Outlet />;
 
-  const filtered = cat === "All" ? projects : projects.filter((p) => p.category === cat);
+  const filtered = cat === "All" ? projects : projects.filter((p) => p[locale].category === cat);
   return (
     <AppShell>
       <section className="pt-40 pb-20 bg-background">
         <div className="mx-auto max-w-7xl px-6">
           <Reveal className="space-y-6 max-w-3xl">
             <SectionLabel>{t("projects.eyebrow")}</SectionLabel>
-            <h1 className="font-display text-5xl sm:text-7xl font-light leading-[1.02]">{t("projects.title")}</h1>
+            <h1 className={`page-title-light-rtl font-display text-5xl sm:text-7xl leading-[1.02] ${locale === "en" ? "font-light" : ""}`}>{t("projects.title")}</h1>
           </Reveal>
           <div className="mt-12 flex flex-wrap gap-2">
             {categories.map((c) => (
@@ -38,23 +38,26 @@ function ProjectsPage() {
       </section>
       <section className="pb-32">
         <div className="mx-auto max-w-7xl px-6 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((p, i) => (
-            <Reveal key={p.slug} delay={i * 0.08}>
-              <Link to="/projects/$slug" params={{ slug: p.slug }} className="block group">
-                <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-muted">
-                  <motion.img src={p.image} alt={p.name} loading="lazy" className="size-full object-cover" whileHover={{ scale: 1.06 }} transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-                  <div className="absolute inset-x-0 bottom-0 p-6 text-white">
-                    <p className="text-xs text-white/70 uppercase tracking-[0.2em] mb-2">{p.location}</p>
-                    <div className="flex items-end justify-between gap-4">
-                      <h3 className="font-display text-2xl font-light">{p.name}</h3>
-                      <ArrowUpRight className="size-5 opacity-70 group-hover:opacity-100" />
+          {filtered.map((p, i) => {
+            const localized = p[locale];
+            return (
+              <Reveal key={p.slug} delay={i * 0.08}>
+                <Link to="/projects/$slug" params={{ slug: p.slug }} className="block group">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-muted">
+                    <motion.img src={p.image} alt={localized.name} loading="lazy" className="size-full object-cover" whileHover={{ scale: 1.06 }} transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                      <p className="text-xs text-white/70 uppercase tracking-[0.2em] mb-2">{localized.location}</p>
+                      <div className="flex items-end justify-between gap-4">
+                        <h3 className={`featured-project-card-title font-display text-2xl ${locale === "en" ? "font-light" : ""}`}>{localized.name}</h3>
+                        <ArrowUpRight className="size-5 opacity-70 group-hover:opacity-100" />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Link>
-            </Reveal>
-          ))}
+                </Link>
+              </Reveal>
+            );
+          })}
         </div>
       </section>
     </AppShell>

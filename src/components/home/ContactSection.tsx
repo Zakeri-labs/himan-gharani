@@ -93,7 +93,7 @@ export function ContactSection({ isInline = false }: ContactSectionProps) {
   if (isInline) return formContent;
 
   return (
-    <section id="contact" className="relative py-24 sm:py-32 bg-foreground text-background overflow-hidden">
+    <section id="contact" className="relative overflow-hidden bg-foreground py-16 sm:py-32 text-background">
       {/* Dynamic Background Elements */}
       <div className="absolute top-0 right-0 w-1/2 h-full bg-gold/5 -skew-x-12 translate-x-1/4" />
       <div className="absolute -top-32 -end-32 size-[600px] rounded-full bg-gold/10 blur-[140px]" />
@@ -104,7 +104,7 @@ export function ContactSection({ isInline = false }: ContactSectionProps) {
           <Reveal className="lg:col-span-5 space-y-10">
             <div className="space-y-6">
               <SectionLabel>{t("contact.eyebrow")}</SectionLabel>
-              <h2 className="font-display text-5xl sm:text-6xl lg:text-7xl leading-[1.05] font-light tracking-tight">
+              <h2 className="section-main-title font-display text-3xl sm:text-4xl lg:text-5xl leading-[1.05] tracking-tight text-white">
                 {t("contact.title").split(", ").map((part, i) => (
                   <span key={i} className="block">
                     {part}
@@ -125,7 +125,7 @@ export function ContactSection({ isInline = false }: ContactSectionProps) {
                 <div>
                   <p className="text-xs uppercase tracking-[0.3em] text-background/40 mb-1">Direct Line</p>
                   <a href={whatsappLink()} target="_blank" rel="noreferrer" className="text-xl font-medium hover:text-gold transition-colors">
-                    +971 56 243 0180
+                    +971562430180
                   </a>
                 </div>
               </div>
